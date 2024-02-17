@@ -4,14 +4,16 @@ using EAHS.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EAHS.Migrations
 {
     [DbContext(typeof(EAHSDbContext))]
-    partial class EAHSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240217171646_add_seeder")]
+    partial class add_seeder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

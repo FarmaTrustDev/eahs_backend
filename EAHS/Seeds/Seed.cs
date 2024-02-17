@@ -6,6 +6,7 @@ namespace EAHS.Seeds
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            new CountriesSeeder(modelBuilder);
             new UserSeeder(modelBuilder);
             new RulesSeeder(modelBuilder);
             //new QPSTatusSeeder(modelBuilder);

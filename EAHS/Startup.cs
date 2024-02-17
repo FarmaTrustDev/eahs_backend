@@ -95,7 +95,23 @@ namespace EAHS
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCookiePolicy();
+            app.UseCors(builder =>
+    builder
+        .WithOrigins("http://localhost:3000", "https://localhost:3000", "https://biobank_front.hataali.net", "http://biobank_front.hataali.net", "https://smartlabs.hataali.net", "http://3.74.229.219/")//@this for temp solution will remove on future adding for local or live work together
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+);
+            app.UseHttpContext();
 
+            app.UseCors("MyPolicy");
+
+            app.UseEndpoints(endpoints =>
+            {
+                //endpoints.MapHub<NotificationUserHub>("/NotificationUserHub");
+                endpoints.MapControllers();
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
