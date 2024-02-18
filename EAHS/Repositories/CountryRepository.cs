@@ -64,7 +64,14 @@ namespace EAHS.Repositories
                 throw ex;
             }
         }
-
+        public Country GetByCountryName(string countryName)
+        {
+            Country contry = _cGTContext.Country.Where(count => count.Name == countryName).FirstOrDefault();
+            if (contry != null)
+                return contry;
+            else
+                return null;
+        }
         private ExpressionStarter<Country> AppliesQueryParams(FiltersRequestDTO filters)
         {
             Expression<Func<Country, bool>> expersion = e => true;

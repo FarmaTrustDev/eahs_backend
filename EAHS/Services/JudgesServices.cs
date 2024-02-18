@@ -15,10 +15,12 @@ namespace EAHS.Services
     public class JudgesServices
     {
         private readonly IJudgesRepository _repo;
+        private readonly ICountryRepository _countryRepository;
         private readonly string QR_STROAGE_PATH = "/user/";
-        public JudgesServices(IJudgesRepository repo)
+        public JudgesServices(IJudgesRepository repo, ICountryRepository countryRepository)
         {
             _repo = repo;
+            _countryRepository = countryRepository;
         }
         public async Task<JudgeResponseDTO> CreateJudge(JudgeRequestDTO request)
         {
@@ -62,13 +64,19 @@ namespace EAHS.Services
             List<Judges> judgs= _repo.Get().Where(jug=>jug.Active ==true).ToList();
            foreach(Judges jdg in judgs)
             {
+                Country country = _countryRepository.GetByCountryName(jdg.CountryName);
+                string countryFlg = "";
+                if (country != null)
+                {
+                    countryFlg = country.FlagPath;
+                }
                 JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO();
                 judgeResponseDTO.Id = jdg.Id;
                 judgeResponseDTO.JudgeName = jdg.JudgeName;
                 judgeResponseDTO.CountryName = jdg.CountryName;
                 judgeResponseDTO.IsMember = jdg.IsMember;
                 judgeResponseDTO.IsConflict = jdg.IsConflict;
-                judgeResponseDTO.CountryFlag = jdg.CountryFlag;
+                judgeResponseDTO.CountryFlag = countryFlg;
                 judgeResponseDTO.GlobalId = jdg.GlobalId;
                 judgeResponseDTOs.Add(judgeResponseDTO);
             }
