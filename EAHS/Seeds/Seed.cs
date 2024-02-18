@@ -9,6 +9,7 @@ namespace EAHS.Seeds
             new CountriesSeeder(modelBuilder);
             new UserSeeder(modelBuilder);
             new RulesSeeder(modelBuilder);
+            new JudgesSeeder(modelBuilder);
             //new QPSTatusSeeder(modelBuilder);
         }
     }
