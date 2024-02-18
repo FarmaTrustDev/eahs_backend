@@ -31,5 +31,29 @@ namespace EAHS.Controllers
                 throw new ApiException(e.Message);
             }
         }
+        [HttpGet("{id}")]
+        public ActionResult GetById(Guid id)
+        {
+            try
+            {
+                return new JsonResult(new { success = true, data = _judgesServices.GetById(id) }); //@temp host hendle
+            }
+            catch (Exception e)
+            {
+                throw new ApiException(e.Message);
+            }
+        }
+        [HttpPatch("{id}")]
+        public ActionResult Put(Guid id ,[FromForm] JudgeRequestDTO request)
+        {
+            return new JsonResult(new { success = true, data = _judgesServices.UpdateJudge(id,request) });
+
+        }
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
+        {
+            return new JsonResult(new { success = true, data = _judgesServices.DeleteJudge(id) });
+
+        }
     }
 }

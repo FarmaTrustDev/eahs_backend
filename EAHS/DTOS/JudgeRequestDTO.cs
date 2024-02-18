@@ -13,6 +13,8 @@ namespace EAHS.DTOS
     }
     public class RuleRequestDTO
     {
-        public List<int> Rules { get; set; }
+        public int Id { get; set; }
+        public string RuleName { get; set; }
+        public bool IsIncluded { get; set; }
     }
 }

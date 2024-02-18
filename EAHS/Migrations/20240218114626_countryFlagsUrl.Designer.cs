@@ -4,14 +4,16 @@ using EAHS.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EAHS.Migrations
 {
     [DbContext(typeof(EAHSDbContext))]
-    partial class EAHSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240218114626_countryFlagsUrl")]
+    partial class countryFlagsUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

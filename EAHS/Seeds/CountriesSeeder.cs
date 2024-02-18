@@ -39,7 +39,7 @@ namespace EAHS.Seeds
                 foreach (var (country, index) in countries.Select((country, index) => (country, index)))
                 {
 
-                    DbCountries.Add(new Country { Id = index + 1, Name = country.name, ISO = country.code, CountryCode = country.dial_code, Active = true });
+                    DbCountries.Add(new Country { Id = index + 1, Name = country.name, ISO = country.code, CountryCode = country.dial_code, FlagPath = country.flagPath ,Active = true });
                 }
             }
 
@@ -64,5 +64,6 @@ namespace EAHS.Seeds
         public string dial_code { get; set; }
 
         public string name { get; set; }
+        public string flagPath { get; set; }
     }
 }

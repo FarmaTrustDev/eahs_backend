@@ -12,6 +12,8 @@ namespace EAHS.Models
 
         [Column(TypeName = "nvarchar(200)")]
         public string ISO { get; set; }
+        [Column(TypeName = "nvarchar(200)")]
+        public string FlagPath { get; set; }
 
     }
 }

@@ -34,8 +34,7 @@ namespace EAHS.Services
                     Active = true,
                 };
                 Judges newJudge = _repo.Create(judges).Result;
-                newJudge.CountryFlag = StoreConsentDocumentation(request.CountryFlag, newJudge);
-                await UpdateProfileImage(newJudge, newJudge.CountryFlag);
+     
                 if (newJudge != null)
                 {
                     JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO()
@@ -60,7 +59,7 @@ namespace EAHS.Services
         public List<JudgeResponseDTO> GetJudges()
         {
             List<JudgeResponseDTO> judgeResponseDTOs = new List<JudgeResponseDTO>();
-            List<Judges> judgs= _repo.Get().ToList();
+            List<Judges> judgs= _repo.Get().Where(jug=>jug.Active ==true).ToList();
            foreach(Judges jdg in judgs)
             {
                 JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO();
@@ -70,6 +69,8 @@ namespace EAHS.Services
                 judgeResponseDTO.IsMember = jdg.IsMember;
                 judgeResponseDTO.IsConflict = jdg.IsConflict;
                 judgeResponseDTO.CountryFlag = jdg.CountryFlag;
+                judgeResponseDTO.GlobalId = jdg.GlobalId;
+                judgeResponseDTOs.Add(judgeResponseDTO);
             }
            return judgeResponseDTOs;
         }
@@ -94,6 +95,85 @@ namespace EAHS.Services
         {
             judge.CountryFlag = path;
             return judge;
+        }
+        public JudgeResponseDTO GetById(Guid id)
+        {
+            JudgeResponseDTO judgData = _repo.GetById(id);
+            return judgData;
+        }
+
+        public Judges GetByIntId(Guid id)
+        {
+            return _repo.GetByGuId(id);
+            
+        }
+
+        public async Task<JudgeResponseDTO> UpdateJudge(Guid id,JudgeRequestDTO request)
+        {
+            try
+            {
+                var judgeData = _repo.GetByGuId(id);
+
+                judgeData.JudgeName = request.JudgeName;
+                judgeData.CountryName = request.CountryName;
+                judgeData.IsConflict = request.IsConflict;
+                judgeData.IsMember = request.IsMember;
+                judgeData.UpdatedAt = System.DateTime.Now;
+                
+                Judges newJudge = _repo.Update(judgeData).Result;
+
+                if (newJudge != null)
+                {
+                    JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO()
+                    {
+                        Id = newJudge.Id,
+                        JudgeName = newJudge.JudgeName,
+                        CountryName = newJudge.CountryName,
+                        IsMember = newJudge.IsMember,
+                        IsConflict = newJudge.IsConflict,
+                        CountryFlag = newJudge.CountryFlag,
+                    };
+                    return judgeResponseDTO;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message);
+            }
+
+        }
+        public async Task<JudgeResponseDTO> DeleteJudge(Guid id)
+        {
+            try
+            {
+                var judgeData = _repo.GetByGuId(id);
+
+                judgeData.Active = false;
+                judgeData.DeletedAt = System.DateTime.Now;
+
+                Judges newJudge = _repo.Update(judgeData).Result;
+
+                if (newJudge != null)
+                {
+                    JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO()
+                    {
+                        Id = newJudge.Id,
+                        JudgeName = newJudge.JudgeName,
+                        CountryName = newJudge.CountryName,
+                        IsMember = newJudge.IsMember,
+                        IsConflict = newJudge.IsConflict,
+                        CountryFlag = newJudge.CountryFlag,
+                    };
+                    return judgeResponseDTO;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message);
+            }
+
         }
     }
 }

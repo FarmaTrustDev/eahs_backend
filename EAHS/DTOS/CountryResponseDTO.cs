@@ -12,6 +12,7 @@ namespace EAHS.DTOS
         public string Name { get; set; }
         public string CountryCode { get; set; }
         public string ISO { get; set; }
+        public string FlagPath { get; set; }
     }
 
     public class CountryListingResponseDTO : PaginateDTO

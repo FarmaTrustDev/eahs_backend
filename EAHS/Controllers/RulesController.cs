@@ -3,6 +3,7 @@ using EAHS.Helper.ExceptionHendling;
 using EAHS.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace EAHS.Controllers
 {
@@ -13,11 +14,24 @@ namespace EAHS.Controllers
         {
             _rulesServices = rulesServices;
         }
-        /*[HttpPut]
-        public ActionResult Put([FromForm] RuleRequestDTO request)
+        [HttpGet]
+        public ActionResult Get()
+        {
+            try
+            {
+                return new JsonResult(new { success = true, data = _rulesServices.GetAll() }) ; //@temp host hendle
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPut]
+        public ActionResult Put(List<RuleRequestDTO> request)
         {
             return new JsonResult(new { success = true, data = _rulesServices.Update(request) });
 
-        }*/
+        }
     }
 }

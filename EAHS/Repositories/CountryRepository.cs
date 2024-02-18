@@ -33,7 +33,8 @@ namespace EAHS.Repositories
                         Id = country.Id,
                         Name = country.Name,
                         ISO = country.ISO,
-                        CountryCode = country.CountryCode
+                        CountryCode = country.CountryCode,
+                        FlagPath = country.FlagPath
                     });
 
                 Paginate paginate = new Paginate(builder, filterRequest);
@@ -48,8 +49,8 @@ namespace EAHS.Repositories
                         Id = country.Id,
                         Name = country.Name,
                         ISO = country.ISO,
-                        CountryCode = country.CountryCode
-
+                        CountryCode = country.CountryCode,
+                        FlagPath = country.FlagPath
                     }).ToList();
 
                 // stupid work
