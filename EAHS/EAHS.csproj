@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>956e9610-7ed6-4071-8526-58d44ad9aff4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\CountryFlags\" />
+    <Folder Include="wwwroot\Seeds\Json\" />
   </ItemGroup>
 
 </Project>

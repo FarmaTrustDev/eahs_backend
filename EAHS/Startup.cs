@@ -98,7 +98,7 @@ namespace EAHS
             app.UseCookiePolicy();
             app.UseCors(builder =>
     builder
-        .WithOrigins("http://localhost:3000", "https://localhost:3000", "https://biobank_front.hataali.net", "http://biobank_front.hataali.net", "https://smartlabs.hataali.net", "http://3.74.229.219/")//@this for temp solution will remove on future adding for local or live work together
+        .WithOrigins("http://localhost:3000", "http://draw.gcarabianstour.net", "https://draw.gcarabianstour.net", "https://localhost:3000", "https://biobank_front.hataali.net", "http://biobank_front.hataali.net", "https://smartlabs.hataali.net", "http://3.74.229.219/")//@this for temp solution will remove on future adding for local or live work together
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
