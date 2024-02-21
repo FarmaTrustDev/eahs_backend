@@ -12,6 +12,7 @@ namespace EAHS.DTOS
         public bool IsMember { get; set; }
         public bool IsConflict { get; set; }
         public Guid GlobalId { get; set; }
+        public int? DeletedBy { get; set; }
     }
 
     public class RuleResponseDTO

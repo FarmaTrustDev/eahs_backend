@@ -31,6 +31,18 @@ namespace EAHS.Controllers
                 throw new ApiException(e.Message);
             }
         }
+        [HttpGet("getSpinJudges")]
+        public ActionResult GetSpinJudges()
+        {
+            try
+            {
+                return new JsonResult(new { success = true, data = _judgesServices.GetSpinJudges() }); //@temp host hendle
+            }
+            catch (Exception e)
+            {
+                throw new ApiException(e.Message);
+            }
+        }
         [HttpGet("{id}")]
         public ActionResult GetById(Guid id)
         {
@@ -47,6 +59,18 @@ namespace EAHS.Controllers
         public ActionResult Put(Guid id ,[FromForm] JudgeRequestDTO request)
         {
             return new JsonResult(new { success = true, data = _judgesServices.UpdateJudge(id,request) });
+
+        }
+        [HttpPatch("disable/{id}")]
+        public ActionResult DisableJudge(Guid id)
+        {
+            return new JsonResult(new { success = true, data = _judgesServices.DisableJudge(id) });
+
+        }
+        [HttpPatch("enable/{id}")]
+        public ActionResult EnableJudge(Guid id)
+        {
+            return new JsonResult(new { success = true, data = _judgesServices.EnableJudge(id) });
 
         }
         [HttpDelete("{id}")]
