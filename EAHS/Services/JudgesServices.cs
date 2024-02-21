@@ -78,9 +78,35 @@ namespace EAHS.Services
                 judgeResponseDTO.IsConflict = jdg.IsConflict;
                 judgeResponseDTO.CountryFlag = countryFlg;
                 judgeResponseDTO.GlobalId = jdg.GlobalId;
+                judgeResponseDTO.DeletedBy = jdg.DeletedBy;
                 judgeResponseDTOs.Add(judgeResponseDTO);
             }
            return judgeResponseDTOs;
+        }
+        public List<JudgeResponseDTO> GetSpinJudges()
+        {
+            List<JudgeResponseDTO> judgeResponseDTOs = new List<JudgeResponseDTO>();
+            List<Judges> judgs = _repo.Get().Where(jug => jug.Active == true && jug.DeletedBy!=1).ToList();
+            foreach (Judges jdg in judgs)
+            {
+                Country country = _countryRepository.GetByCountryName(jdg.CountryName);
+                string countryFlg = "";
+                if (country != null)
+                {
+                    countryFlg = country.FlagPath;
+                }
+                JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO();
+                judgeResponseDTO.Id = jdg.Id;
+                judgeResponseDTO.JudgeName = jdg.JudgeName;
+                judgeResponseDTO.CountryName = jdg.CountryName;
+                judgeResponseDTO.IsMember = jdg.IsMember;
+                judgeResponseDTO.IsConflict = jdg.IsConflict;
+                judgeResponseDTO.CountryFlag = countryFlg;
+                judgeResponseDTO.GlobalId = jdg.GlobalId;
+                judgeResponseDTO.DeletedBy = jdg.DeletedBy;
+                judgeResponseDTOs.Add(judgeResponseDTO);
+            }
+            return judgeResponseDTOs;
         }
         private string StoreConsentDocumentation(IFormFile file, Judges judge)
         {
@@ -160,6 +186,70 @@ namespace EAHS.Services
                 judgeData.Active = false;
                 judgeData.DeletedAt = System.DateTime.Now;
 
+                Judges newJudge = _repo.Update(judgeData).Result;
+
+                if (newJudge != null)
+                {
+                    JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO()
+                    {
+                        Id = newJudge.Id,
+                        JudgeName = newJudge.JudgeName,
+                        CountryName = newJudge.CountryName,
+                        IsMember = newJudge.IsMember,
+                        IsConflict = newJudge.IsConflict,
+                        CountryFlag = newJudge.CountryFlag,
+                    };
+                    return judgeResponseDTO;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message);
+            }
+        }
+        public async Task<JudgeResponseDTO> DisableJudge(Guid id)
+        {
+            try
+            {
+                var judgeData = _repo.GetByGuId(id);
+
+                judgeData.Active = true;
+                judgeData.DeletedAt = System.DateTime.Now;
+                judgeData.DeletedBy = 1;
+                Judges newJudge = _repo.Update(judgeData).Result;
+
+                if (newJudge != null)
+                {
+                    JudgeResponseDTO judgeResponseDTO = new JudgeResponseDTO()
+                    {
+                        Id = newJudge.Id,
+                        JudgeName = newJudge.JudgeName,
+                        CountryName = newJudge.CountryName,
+                        IsMember = newJudge.IsMember,
+                        IsConflict = newJudge.IsConflict,
+                        CountryFlag = newJudge.CountryFlag,
+                    };
+                    return judgeResponseDTO;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message);
+            }
+
+        }
+
+        public async Task<JudgeResponseDTO> EnableJudge(Guid id)
+        {
+            try
+            {
+                var judgeData = _repo.GetByGuId(id);
+
+                judgeData.Active = true;
+                judgeData.DeletedAt = System.DateTime.Now;
+                judgeData.DeletedBy = 0;
                 Judges newJudge = _repo.Update(judgeData).Result;
 
                 if (newJudge != null)
